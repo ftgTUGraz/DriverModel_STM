@@ -1,5 +1,6 @@
 #pragma once
 #include "InjectorAbstract.h"
+#include "ManualDrivingBreaking.h"
 
 /**
 * The Injector class is a subclass of InjectorAbstract and it provides a simple interface for the 
@@ -17,6 +18,39 @@ private:
 	Injector();
 
 	// user defined
+	std::unordered_map<long int, double>initial_speeds;
+	std::unordered_map<long int, double>initial_accel;
+
+	DrivingBrake breakingModel;
+	std::vector<std::vector<NearbyVehicle*>> distanceMatrix;
+	std::vector<std::pair<int, std::vector<NearbyVehicle*>>> distanceMatrixRows;
+#if NUM_OF_LANES == 2
+	std::vector<std::vector<int>> comparisonMatrix = { {1, XX, XX, XX, XX, XX},
+																{1, XX, XX, 1, XX, XX},
+																{XX, 1, XX, XX, XX, XX},
+																{XX, 1, XX, XX, 1, XX},
+																{XX, XX, 1, XX, XX, XX},
+																{XX, XX, 1, XX, XX, 1},
+																{XX, XX, XX, 1, XX, XX},
+																{XX, XX, XX, XX, 1, XX},
+																{XX, XX, XX, XX, XX, 1} };
+	std::vector<int> comparisonCounter = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+#else
+
+	std::vector<std::vector<int>> comparisonMatrix = { {1, XX, XX, 1, XX, XX, 1, XX, XX},
+																	{XX, 1, XX, XX, 1, XX, XX, 1, XX},
+																	{XX, XX, 1, XX, XX, 1, XX, XX, 1},
+																	{1, XX, XX, XX, XX, XX, XX, XX, XX},
+																	{XX, XX, XX, 1, XX, XX, XX, XX, XX},
+																	{XX, XX, 1, XX, XX, XX, 1, XX, XX},
+																	{XX, 1, XX, XX, XX, XX, XX, XX, XX},
+																	{XX, XX, XX, XX, 1, XX, XX, XX, XX},
+																	{XX, XX, 1, XX, XX, XX, XX, 1, XX},
+																	{XX, XX, 1, XX, XX, XX, XX, XX, XX},
+																	{XX, XX, XX, XX, XX, 1, XX, XX, XX},
+																	{XX, XX, XX, XX, XX, XX, XX, XX, 1} };
+	std::vector<int> comparisonCounter = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+#endif // NUM_OF_LANES == 2
 
 
 public:
@@ -64,5 +98,13 @@ public:
 	void action(NearbyVehicle* veh, const std::vector<NearbyVehicle*> selected_vehicles);
 
 	// user defined
+	std::vector<std::vector<NearbyVehicle*>> getDistanceMatrix();
+	std::vector<std::vector<bool>>  Injector::getEventMatrix(std::vector<std::vector<NearbyVehicle*>>& distanceMatrix);
+	bool triggerEvent(std::vector<std::vector<bool>>& eventMatrix);
+	std::vector<std::pair<int, int>> calculateDifferences(std::vector<std::vector<bool>>& eventMatrix);
+	int rowDifference(std::vector<std::vector<bool>>& eventMatrix, std::vector<int>& comparisonMatrixRow);
+
+	double accelerationModel(NearbyVehicle* veh);
+	double accBreakingModel(NearbyVehicle* veh);
 };
 

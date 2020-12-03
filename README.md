@@ -5,7 +5,7 @@ PTV Vissim DriverModel Framework is a framework for writing driver model dll use
 **_DriverModel_DLL_ provided with the PTV Vissim is used as a base for the project.**
 
 ## Requirements
-* PTV Vissim 10
+* PTV Vissim 10 / 11
 * Visual Studio 2010 or newer
 * Optional: for debugging adequate symbols has to be loaded
 * Optional: for running in co-simulation with CarMaker, IPG CarMaker 8.1.1 required

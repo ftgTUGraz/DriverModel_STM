@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="DataStorage.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverModel.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EgoVehicle.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="InjectorAbstract.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="NearbyVehicle.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Injector.cpp">
+      <Filter>Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="ManualDrivingBreaking.cpp">
+      <Filter>Implementation\Breaking_models</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataStorage.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="DriverModel.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EgoVehicle.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="InjectorAbstract.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="NearbyVehicle.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="VissimValues.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Injector.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Parameters.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakingBehaviorParameters.h">
+      <Filter>Implementation\Breaking_models</Filter>
+    </ClInclude>
+    <ClInclude Include="ManualDrivingBreaking.h">
+      <Filter>Implementation\Breaking_models</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{d4cb1705-616d-49f3-a805-32edba2fce8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{40061881-70a4-4879-b505-5e5cfde392cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Breaking_models">
+      <UniqueIdentifier>{26d69b6a-fe3c-4fa2-a9e0-4f0f609548e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

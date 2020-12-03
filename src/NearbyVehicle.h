@@ -34,9 +34,4 @@ public:
 	* vehicle. 
 	*/
 	void setAsTarget(bool val = true);
-
-	/**
-	* TODO: To be removed.
-	*/
-	std::tuple<int, int> calculateDistanceCol(double speed_ego);
 };

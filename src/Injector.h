@@ -103,6 +103,7 @@ public:
 	bool triggerEvent(std::vector<std::vector<bool>>& eventMatrix);
 	std::vector<std::pair<int, int>> calculateDifferences(std::vector<std::vector<bool>>& eventMatrix);
 	int rowDifference(std::vector<std::vector<bool>>& eventMatrix, std::vector<int>& comparisonMatrixRow);
+	std::tuple<int, int> calculateDistanceCol(double distance, long row, double speed_ego);
 
 	double accelerationModel(NearbyVehicle* veh);
 	double accBreakingModel(NearbyVehicle* veh);

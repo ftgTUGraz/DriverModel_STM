@@ -537,7 +537,7 @@ int InjectorAbstract::getInjectorData(long   type, long   index1, long   index2,
 		*double_value = nveh.acceleration;
 		return 1;
 	case DRIVER_DATA_DESIRED_LANE_ANGLE:
-		*double_value = nveh.desired_lane_angle;
+		*double_value = current_target.desired_lane_angle;
 		return 1;
 	case DRIVER_DATA_ACTIVE_LANE_CHANGE:
 		*long_value = current_target.active_lane_change;

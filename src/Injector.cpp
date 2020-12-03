@@ -33,7 +33,8 @@ void Injector::capture()
 void Injector::action(NearbyVehicle* veh, const std::vector<NearbyVehicle*> actionNveh)
 {
 	veh->color = YELLOW;
-	veh->acceleration = -1;
+	//veh->acceleration = this->accelerationModel(veh);
+	veh->acceleration = this->accBreakingModel(veh);
 }
 
 
@@ -100,7 +101,7 @@ std::vector<std::vector<NearbyVehicle*>> Injector::getDistanceMatrix()
 	for (auto& vehFront : this->getVehiclesDownstream())
 	{
 		// get vehFront position within the matrix (relative to ego)
-		std::tie(row, col) = vehFront->calculateDistanceCol(ego.current_velocity);
+		std::tie(row, col) = this->calculateDistanceCol(vehFront->distance, vehFront->relative_lane, ego.current_velocity);
 
 		//no lane marks that vehicle is not within any predifined column, therefore skiped
 		if (row != NO_LANE)
@@ -264,4 +265,22 @@ int Injector::rowDifference(std::vector<std::vector<bool>>& eventMatrix, std::ve
 	}
 
 	return diff;
+}
+
+std::tuple<int, int>  Injector::calculateDistanceCol(double distance, long row, double speed_ego)
+{
+	if (distance >= speed_ego * T1 && distance < speed_ego * T2)
+	{
+		return { row, 0 };
+	}
+	else if (distance >= speed_ego * T2 && distance < speed_ego * T3)
+	{
+		return { row, 1 };
+	}
+	else if (distance >= speed_ego * T3 && distance < speed_ego * T4)
+	{
+		return { row, 2 };
+	}
+
+	return { NO_LANE, -1 };
 }

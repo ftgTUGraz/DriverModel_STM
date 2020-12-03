@@ -7,8 +7,8 @@
 
 /*  TTC Parameters  */
 
-#define CO_SIM 0
-#define EGO_ID 5
+#define CO_SIM 1
+#define EGO_ID 1
 #define NUM_OF_NVEH 8
 #define TTCTreshold  4.0		// Critical TTC Value
 #define	SameLane  false			// If true, the DriverModell considers only the Nveh in the same lane

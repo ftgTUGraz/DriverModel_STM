@@ -7,8 +7,8 @@
 
 /*  TTC Parameters  */
 
-#define CO_SIM 0
-#define EGO_ID 5
+#define CO_SIM 1
+#define EGO_ID 1
 #define NUM_OF_NVEH 8
 #define TTCTreshold  4.0		// Critical TTC Value
 #define	SameLane  false			// If true, the DriverModell considers only the Nveh in the same lane
@@ -57,7 +57,12 @@
 #define VEH_VELOCITY 83 // in m/s
 
 
-#define T1 2
-#define T2 4
-#define T3 6
-#define T4 8
+#define T1 0.5
+#define T2 2
+#define T3 3
+#define T4 4
+
+#define DISTANCE_1 5
+#define DISTANCE_2 25
+#define DISTANCE_3 50
+#define DISTANCE_4 75

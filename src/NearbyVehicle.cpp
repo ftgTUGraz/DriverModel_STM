@@ -15,6 +15,7 @@ NearbyVehicle::NearbyVehicle(EgoVehicle ego)
 	this->selected_as_target = false;
 	this->desired_lane_angle = ego.desired_lane_angle;
 	this->data_rel_target_lane = ego.rel_target_lane;
+	this->active_lane_change = ego.active_lane_change;
 }
 
 NearbyVehicle::NearbyVehicle()
@@ -22,6 +23,7 @@ NearbyVehicle::NearbyVehicle()
 	this->selected_as_target = false;
 	this->turning_indicator = 0;
 	this->desired_velocity = VEH_VELOCITY;
+	this->active_lane_change = 0;
 }
 
 void NearbyVehicle::setAsTarget(bool val)

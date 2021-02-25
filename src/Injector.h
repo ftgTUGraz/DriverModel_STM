@@ -1,5 +1,9 @@
 #pragma once
 #include "InjectorAbstract.h"
+#include "BrakingBehaviorParameters.h"
+#include "DriverLateralControl.h"
+
+#include <cmath>
 
 /**
 * The Injector class is a subclass of InjectorAbstract and it provides a simple interface for the 
@@ -17,6 +21,14 @@ private:
 	Injector();
 
 	// user defined
+	double t2;
+	double oldPosX;
+	double oldPosY;
+	double newPosX;
+	double newPosY;
+	LaneChange lat_ctrl;
+	std::vector<long> left;
+	std::vector<long> right;
 
 
 public:
@@ -63,6 +75,21 @@ public:
 	*/
 	void action(NearbyVehicle* veh, const std::vector<NearbyVehicle*> selected_vehicles);
 
+	/**
+	* Upon execution of the action, action end is called autometically. Here user can handle the
+	* data of previous action which has to be executed only once per action, e.g. increment the
+	* counter for LCE column which was used in the last action.
+	*/
+	void action_end();
+
 	// user defined
+
+	int calculateDistance(double distance, double relative_v, int min_index);
+
+	int getMinLCE();
+
+	long lce[3] = { 0, 0, 0 };
+	bool lane_change_executed = false;
+	long lc_id = -1;
 };
 

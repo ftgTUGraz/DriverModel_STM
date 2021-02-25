@@ -242,6 +242,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataStorage.cpp" />
+    <ClCompile Include="DriverLateralControl.cpp" />
     <ClCompile Include="DriverModel.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
@@ -261,7 +262,9 @@
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BrakingBehaviorParameters.h" />
     <ClInclude Include="DataStorage.h" />
+    <ClInclude Include="DriverLateralControl.h" />
     <ClInclude Include="DriverModel.h" />
     <ClInclude Include="Injector.h" />
     <ClInclude Include="InjectorAbstract.h" />

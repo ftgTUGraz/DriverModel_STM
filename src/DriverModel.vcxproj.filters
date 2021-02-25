@@ -22,8 +22,8 @@
     <ClCompile Include="Injector.cpp">
       <Filter>Implementation</Filter>
     </ClCompile>
-    <ClCompile Include="ManualDrivingBreaking.cpp">
-      <Filter>Implementation\Breaking_models</Filter>
+    <ClCompile Include="DriverLateralControl.cpp">
+      <Filter>Implementation\Lateral_control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,11 +54,11 @@
     <ClInclude Include="Parameters.h">
       <Filter>Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="BreakingBehaviorParameters.h">
+    <ClInclude Include="BrakingBehaviorParameters.h">
       <Filter>Implementation\Breaking_models</Filter>
     </ClInclude>
-    <ClInclude Include="ManualDrivingBreaking.h">
-      <Filter>Implementation\Breaking_models</Filter>
+    <ClInclude Include="DriverLateralControl.h">
+      <Filter>Implementation\Lateral_control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +70,9 @@
     </Filter>
     <Filter Include="Implementation\Breaking_models">
       <UniqueIdentifier>{26d69b6a-fe3c-4fa2-a9e0-4f0f609548e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation\Lateral_control">
+      <UniqueIdentifier>{81f54056-85aa-41c2-ad71-09409bfa2175}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

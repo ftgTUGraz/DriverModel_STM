@@ -19,6 +19,7 @@ InjectorAbstract::InjectorAbstract(long int ego_id)
 	this->pause_deadline = 0;
 	this->pause_set = false;
 	this->current_nearby_veh = nullptr;
+	this->time_step = 0;
 }
 
 int InjectorAbstract::setInjectorData(long type, long index1, long index2, long long_value, 
@@ -31,6 +32,7 @@ int InjectorAbstract::setInjectorData(long type, long index1, long index2, long 
 	switch (type) {
 	case DRIVER_DATA_PATH:
 	case DRIVER_DATA_TIMESTEP:
+		this->time_step = double_value;
 	case DRIVER_DATA_TIME:
 		this->current_sim_time = double_value;
 		return 1;
@@ -113,6 +115,8 @@ int InjectorAbstract::setInjectorData(long type, long index1, long index2, long 
 		current_nearby_veh->relative_position = index2;
 		return 1;
 	case DRIVER_DATA_NVEH_LANE_ANGLE:
+		current_nearby_veh->desired_lane_angle = double_value;
+		return 1;
 	case DRIVER_DATA_NVEH_LATERAL_POSITION:
 		return 1;
 	case DRIVER_DATA_NVEH_DISTANCE:
@@ -123,11 +127,6 @@ int InjectorAbstract::setInjectorData(long type, long index1, long index2, long 
 		return 1;
 	case DRIVER_DATA_NVEH_ACCELERATION:
 		current_nearby_veh->acceleration = double_value;
-		if (curr_nb_veh_id != -1 && ego_found)
-		{
-			nearby_vehicles_tmp.insert(std::pair<long int, NearbyVehicle*>(curr_nb_veh_id, 
-																			   current_nearby_veh));
-		}
 		return 1;
 	case DRIVER_DATA_NVEH_LENGTH:
 		return 1;
@@ -138,6 +137,13 @@ int InjectorAbstract::setInjectorData(long type, long index1, long index2, long 
 		return 1;
 	case DRIVER_DATA_NVEH_CATEGORY:
 	case DRIVER_DATA_NVEH_LANE_CHANGE:
+		current_nearby_veh->active_lane_change = long_value;
+		if (curr_nb_veh_id != -1 && ego_found)
+		{
+			nearby_vehicles_tmp.insert(std::pair<long int, NearbyVehicle*>(curr_nb_veh_id,
+				current_nearby_veh));
+		}
+		return 1;
 	case DRIVER_DATA_NVEH_TYPE:
 	case DRIVER_DATA_NVEH_UDA:
 	case DRIVER_DATA_NVEH_X_COORDINATE:
@@ -289,16 +295,6 @@ int InjectorAbstract::setInjectorDataCoSim(long  type, long   index1, long   ind
 		return 1;
 	case DRIVER_DATA_NVEH_ACCELERATION:
 		current_nearby_veh->acceleration = double_value;
-		if (curr_nb_veh_id == EGO_ID)
-		{
-			ego_vehicle = *current_nearby_veh;
-			return 1;
-		}
-		if (curr_nb_veh_id != -1)
-		{
-			nearby_vehicles_tmp.insert(std::pair<long int, NearbyVehicle*>(curr_nb_veh_id, 
-																			   current_nearby_veh));
-		}
 		return 1;
 	case DRIVER_DATA_NVEH_LENGTH:
 		return 1;
@@ -306,6 +302,16 @@ int InjectorAbstract::setInjectorDataCoSim(long  type, long   index1, long   ind
 	case DRIVER_DATA_NVEH_WEIGHT:
 	case DRIVER_DATA_NVEH_TURNING_INDICATOR:
 		current_nearby_veh->turning_indicator = long_value;
+		if (curr_nb_veh_id == EGO_ID)
+		{
+			ego_vehicle = *current_nearby_veh;
+			return 1;
+		}
+		if (curr_nb_veh_id != -1)
+		{
+			nearby_vehicles_tmp.insert(std::pair<long int, NearbyVehicle*>(curr_nb_veh_id,
+				current_nearby_veh));
+		}
 		return 1;
 	case DRIVER_DATA_NVEH_CATEGORY:
 	case DRIVER_DATA_NVEH_LANE_CHANGE:
@@ -397,6 +403,7 @@ int InjectorAbstract::getInjectorData(long   type, long   index1, long   index2,
 		}
 		else if (is_action_triggered && deadline <= current_sim_time)
 		{
+			action_end();
 			cleanUp();
 			found = false;
 			pivot_id = -1;
@@ -467,10 +474,12 @@ int InjectorAbstract::getInjectorData(long   type, long   index1, long   index2,
 		}
 		else if (is_action_triggered && deadline <= current_sim_time)
 		{
+			action_end();
 			cleanUp();
 			found = false;
 			pivot_id = -1;
 			data_injected = true;
+			//nveh = *nearby_vehicles.find(current_target_id)->second;
 		}
 		else
 		{
@@ -540,13 +549,27 @@ int InjectorAbstract::getInjectorData(long   type, long   index1, long   index2,
 		*double_value = nveh.desired_lane_angle;
 		return 1;
 	case DRIVER_DATA_ACTIVE_LANE_CHANGE:
-		*long_value = current_target.active_lane_change;
+		if (found)
+		{
+			*long_value = nveh.active_lane_change;
+		}
+		else
+		{
+			*long_value = current_target.active_lane_change;
+		}
 		return 1;
 	case DRIVER_DATA_REL_TARGET_LANE:
-		*long_value = nveh.data_rel_target_lane;
+		if (found)
+		{
+			*long_value = nveh.data_rel_target_lane;
+		}
+		else
+		{
+			*long_value = current_target.rel_target_lane;
+		}
 		return 1;
 	case DRIVER_DATA_SIMPLE_LANECHANGE:
-		*long_value = 1;
+		//*long_value = 1;
 		return 1;
 	case DRIVER_DATA_USE_INTERNAL_MODEL:
 		/* must be set to 1 if the internal behavior model of Vissim is to be applied */
@@ -788,7 +811,12 @@ void InjectorAbstract::startStoringData(bool start, bool interval = true)
 
 void InjectorAbstract::action(NearbyVehicle* veh, const std::vector<NearbyVehicle*> actionNveh)
 {
-	utilities::printDebug(std::ostringstream() << "Action: " << getCurrentSimTime() << "\n");
+	utilities::printDebug(std::ostringstream() << "Action start: " << getCurrentSimTime() << "\n");
+}
+
+void InjectorAbstract::action_end()
+{
+	utilities::printDebug(std::ostringstream() << "Action end: " << getCurrentSimTime() << "\n");
 }
 
 
@@ -810,4 +838,9 @@ double InjectorAbstract::getActionStartTime()
 double InjectorAbstract::getCurrentVehicleVelocity()
 {
 	return current_target.current_velocity;
+}
+
+double InjectorAbstract::getCurrentTimeStep()
+{
+	return this->time_step;
 }

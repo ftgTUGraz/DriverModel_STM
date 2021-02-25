@@ -52,6 +52,7 @@ private:
     long current_target_id;
     long curr_nb_veh_id;
     long num_of_lanes;
+    double time_step;
 
     NearbyVehicle* current_nearby_veh;
     
@@ -109,6 +110,12 @@ public:
     virtual void action(NearbyVehicle* veh, const std::vector<NearbyVehicle*> action_nvehs) = 0;
 
     /**
+    * action_end is a virtual method which is implemeted by the Injector class which serves the purpose
+    * of the interface. It is user-defined and it is executed upon action end.
+    */
+    virtual void InjectorAbstract::action_end();
+
+    /**
     * captureWrapper prepare everything for the execution of the capture
     */
     void captureWrapper();
@@ -162,6 +169,8 @@ public:
     * TODO: To be removed.
     */
     double getCurrentVehicleVelocity();
+
+    double getCurrentTimeStep();
 
     ~InjectorAbstract();
 

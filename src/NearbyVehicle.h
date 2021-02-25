@@ -28,15 +28,11 @@ public:
 	double desired_lane_angle = 0;
 	long data_rel_target_lane = 0;
 	bool selected_as_target;
+	long active_lane_change;
 
 	/**
 	* This method has to be called in capture method if nearby vehicle is to be selected as a target
 	* vehicle. 
 	*/
 	void setAsTarget(bool val = true);
-
-	/**
-	* TODO: To be removed.
-	*/
-	std::tuple<int, int> calculateDistanceCol(double speed_ego);
 };

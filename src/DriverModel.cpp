@@ -70,7 +70,7 @@ DRIVERMODEL_API  int  DriverModelExecuteCommand(long number)
 	case DRIVER_COMMAND_CREATE_DRIVER:
 		return 1;
 	case DRIVER_COMMAND_KILL_DRIVER:
-		utilities::printDebug(std::ostringstream() << "KILLING IT\n");
+		utilities::printDebug(std::ostringstream() << "**********************KILLING IT***********************\n");
 		return 1;
 	case DRIVER_COMMAND_MOVE_DRIVER:
 		return 1;
